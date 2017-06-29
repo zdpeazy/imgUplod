@@ -1,0 +1,32 @@
+<html lang="cn">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+	<button id="btn">test</button>
+	<script src="./jquery.min.js"></script>
+	<script>
+		$.ajax({
+			url: 'http://localhost:3000/api/saveImg',
+			type: 'post',
+			method: 'Post',
+			data: {'id':'3'},
+			dataType: 'json',
+			beforeSend: function(XMLHttpRequest){
+
+			},
+			success: function(data, textStatus){
+				console.log(data);
+			},
+			complete: function(XMLHttpRequest, textStatus){
+				//console.log(XMLHttpRequest);
+			},
+			error: function(err){
+				console.log(err);
+				//请求出错处理
+			}
+		});
+	</script>
+</body>
+</html>
