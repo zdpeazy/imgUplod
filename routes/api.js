@@ -1,19 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var ossApi = require('../connect-oss/connectOss');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var app = module.exports = express();
 
-router.post('/saveImg', urlencodedParser, function(req, res){
-    var result={'code':'0001','msg':'error'};
-    console.log(req.body);
-    resEnd(result, res);
+router.post('/selectBuckets', urlencodedParser, function(req, res){
+  ossApi.returnBuckets(req, res);
 });
 
-function resEnd(json, res){
-    res.set({'Content-Type':'text/json','Encodeing':'utf8','Connection':'Keep-alive','Keep-Alive':'timeout=60'});
-    res.send(json);
-};
+router.post('/selectFileList', urlencodedParser, function(req, res){
+  ossApi.selectFileList(req, res);
+});
+
+router.post('/uploadImg', urlencodedParser, function(req, res){
+  ossApi.uploadImg(req, res);
+});
+
+router.post('/deleteImg', urlencodedParser, function(req, res){
+  ossApi.deleteImg(req, res);
+});
 
 module.exports = router;
 
