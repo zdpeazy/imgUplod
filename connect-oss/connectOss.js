@@ -1,6 +1,7 @@
 var co = require('co');
 var OSS = require('ali-oss');
 var fs = require('fs');
+var sqlMoudle = require('../connect-mysql/connectMysql');
 
 var client = new OSS({
   region: 'oss-cn-shanghai',
@@ -8,10 +9,37 @@ var client = new OSS({
   accessKeySecret: 'Me0PFWDeMt1UBxfEecrHHGw0Cny5dZ'
 });
 
+var configList = {
+  accessid: 'LTAIUXtM8m4BcELr',
+  accesskey: 'Me0PFWDeMt1UBxfEecrHHGw0Cny5dZ',
+  host: 'http://imgarehouse.oss-cn-shanghai.aliyuncs.com',
+  expiration: '2020-01-01T12:00:00.000Z',
+  path: 'ImgResource/design/',
+  maxsize: 1048576000
+} 
+
 var resInfo = {'code': '0001', 'msg': 'error'};
 var pathBox = 'ImgResource/design/';
 
 module.exports = {
+  //配置信息接口
+  configInfo: function(req, res){
+    if(configList){
+      resInfo = {'code': '0002', 'msg': '配置信息列表', 'data': configList};
+    }
+    resEnd(resInfo, res);
+  },
+
+  // 查询数据库
+  selectImgInfo: function(req, res){
+    sqlMoudle.selectImgTable(req, res);
+  },
+
+  // 图片信息入数据库
+  insertImgInfo: function(req, res){
+    sqlMoudle.insertImgTable(req, res);
+  },
+
   // 查看Bucket列表
   returnBuckets: function(req, res){
     co(function* () {
